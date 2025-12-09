@@ -112,3 +112,54 @@ class ToolkitActionListener implements ActionListener{
     }
 }
 ```
+
+```java
+class ToolkitListener implements ActionListener{
+    private static JFrame toolkit;
+
+    public void actionPerformed(ActionEvent e){
+        if (toolkit == null || !toolkit.isVisible()) {
+            toolkit = new JFrame("Singleton Window");
+            toolkit.setSize(400, 300);
+            toolkit.setLocation(200, 200);
+            toolkit.setResizable(false);
+            toolkit.setVisible(true);
+            toolkit.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            toolkit.setVisible(true);
+        }
+    }
+}
+```
+所有的類別都有建構方法，不編碼則系統預設生成空的建構方法，若有顯示定義的建構方法，預設的建構方法就會故障。
+
+```java
+class Toolkit extends JFrame{
+    private static Toolkit toolkit;
+
+    private Toolkit(String title){
+        super(title);
+    }
+
+    public static Toolkit getInstance(){
+        if(toolkit == null || !toolkit.isVisible()){
+            toolkit = new Toolkit("Singleton Window");
+            toolkit.setSize(400, 300);
+            toolkit.setLocation(200, 200);
+            toolkit.setResizable(false);
+            toolkit.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        }
+        return toolkit;
+    }
+}
+
+class ToolkitActionListener implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+        // Toolkit toolkit = Toolkit.getInstance();
+        toolkit.setVisible(true);
+    }
+}
+```
+
+## 單例模式
+單例模式(Singleton)，保證一個類別僅有一個實例，並提供一個存取它的全域存取點。
+
