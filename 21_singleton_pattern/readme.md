@@ -211,3 +211,37 @@ class Singleton{
     }
 }
 ```
+
+### 雙重鎖定
+```java
+class Singleton{
+    private static volatile Singleton instance;
+
+    private Singleton(){}
+
+    public static Singleton getInstance(){
+        if(instance == null){
+            synchronized(Singleton.class){
+                if(instance == null){
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+### 靜態初始化
+
+```java
+class Singleton{
+    private static Singleton instance = new Singleton();
+
+    private Singleton(){}
+
+    public static Singleton getInstance(){
+        return instance;
+    }
+}
+```
+這種靜態初始化的方式是在自己被載入時就將自己實例化，所以被形象地稱之為餓漢式單例類別，原先的單例模式處理方式，是要在第一次被引用時，才會將自己實例化，所以就被稱為懶漢式單例類別。
