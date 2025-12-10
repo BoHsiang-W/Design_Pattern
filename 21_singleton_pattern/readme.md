@@ -163,3 +163,51 @@ class ToolkitActionListener implements ActionListener{
 ## 單例模式
 單例模式(Singleton)，保證一個類別僅有一個實例，並提供一個存取它的全域存取點。
 
+通常我們可以讓一個全域變數使得一個物件被存取，但它不能防止你實例化多個物件。一個最好的辦法就是，讓類別自身負責儲存它的唯一實例。這個類別可以保證沒有其他實例可以被建立，並且它可以提供一個存取該實例的方法。
+
+```java
+class Singleton{
+    private static Singleton instance;
+
+    private Singleton(){}
+
+    public static Singleton getInstance(){
+        if(instance == null){
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+// client code
+public class Test{
+    public static void main(String[] args){
+        Singleton singleton1 = Singleton.getInstance();
+        Singleton singleton2 = Singleton.getInstance();
+
+        if(singleton1 == singleton2){
+            System.out.println("Both references point to the same instance.");
+        } else {
+            System.out.println("Different instances exist.");
+        }
+    }
+}
+```
+單例模式因為Singleton類別封裝它的唯一實例，這樣它可以嚴格地控制客戶怎樣存取它以及何時存取它，簡單地說就是對唯一實例的受控存取。
+
+### 多執行緒時的單例
+
+```java
+class Singleton{
+    private static Singleton instance;
+
+    private Singleton(){}
+
+    public static synchronized Singleton getInstance(){
+        if(instance == null){
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+```
