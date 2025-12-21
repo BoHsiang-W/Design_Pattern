@@ -216,4 +216,102 @@ classDiagram
 
 
 ```java
+abstract class Manager {
+    protected String name;
 
+    public Manager(String name) {
+        this.name = name;
+    }
+
+    protected Manager superior;
+    public void setSuccessor(Manager superior) {
+        this.successor = successor;
+    }
+
+    public abstract void request(Request request);
+}
+
+class CommonManager extends Manager {
+    public CommonManager(String name) {
+        super(name);
+    }
+
+    public void request(Request request) {
+        if (request.getRequestType() == "請假" && request.getNumber() <= 2) {
+            System.out.println(this.name + "審批了" + request.getRequestContent());
+        }
+        else {
+            if (superior != null) {
+                superior.request(request);
+            }
+        }
+    }
+}
+
+class Director extends Manager {
+    public Director(String name) {
+        super(name);
+    }
+
+    public void request(Request request) {
+        if (request.getRequestType() == "請假" && request.getNumber() <= 5) {
+            System.out.println(this.name + "審批了" + request.getRequestContent());
+        } 
+        else {
+            if (superior != null) {
+                superior.request(request);
+            }
+        }
+    }
+}
+class GeneralManager extends Manager {
+    public GeneralManager(String name) {
+        super(name);
+    }
+
+    public void request(Request request) {
+        if (request.getRequestType() == "請假") {
+            System.out.println(this.name + "審批了" + request.getRequestContent());
+        } 
+        else if (request.getRequestType() == "加薪" && request.getNumber() <= 500) {
+            System.out.println(this.name + "審批了" + request.getRequestContent());
+        } 
+        else if (request.getRequestType() == "加薪" && request.getNumber() > 500) {
+            System.out.println("加薪金額過高，無法審批");
+        }
+    }
+}
+
+// client
+CommonManager manager = new CommonManager("經理");
+Director director = new Director("主管");
+GeneralManager generalManager = new GeneralManager("總經理");
+
+manager.setSuccessor(director);
+director.setSuccessor(generalManager);
+
+Request request = new Request();
+request.setRequestType("加薪");
+request.setRequestContent("小明申請加薪");
+request.setNumber(1);
+manager.request(request);
+
+Request request2 = new Request();
+request2.setRequestType("請假");
+request2.setRequestContent("小紅申請請假");
+request2.setNumber(4);
+manager.request(request2);
+
+Request request3 = new Request();
+request3.setRequestType("加薪");
+request3.setRequestContent("小華申請加薪");
+request3.setNumber(600);
+manager.request(request3);
+
+Request request4 = new Request();
+request4.setRequestType("請假");
+request4.setRequestContent("小李申請請假");
+request4.setNumber(10000);
+manager.request(request4);
+
+```
