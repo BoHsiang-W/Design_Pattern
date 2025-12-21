@@ -225,7 +225,7 @@ abstract class Manager {
 
     protected Manager superior;
     public void setSuccessor(Manager superior) {
-        this.successor = successor;
+        this.superior = superior;
     }
 
     public abstract void request(Request request);
